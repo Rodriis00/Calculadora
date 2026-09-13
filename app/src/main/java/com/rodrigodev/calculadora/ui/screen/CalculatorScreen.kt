@@ -68,7 +68,7 @@ fun CalculatorScreen(
             listOf("7", "8", "9", "*"),
             listOf("4", "5", "6", "-"),
             listOf("1", "2", "3", "+"),
-            listOf("0", ".", "=")
+            listOf("0", ".", "+/-", "=")
         )
 
         buttons.forEach { row ->
@@ -77,7 +77,7 @@ fun CalculatorScreen(
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
             ) {
                 row.forEach { symbol ->
-                    val isAction = symbol in listOf("C", "⌫", "%", "/", "*", "-", "+", "=")
+                    val isAction = symbol in listOf("C", "⌫", "%", "/", "*", "-", "+", "=", "+/-")
                     val bgColor = if (isAction) ButtonBlue else ButtonGray
                     val textColor = if (isAction) BackgroundWhite else TextPrimary
 
@@ -88,7 +88,7 @@ fun CalculatorScreen(
                         symbol = symbol,
                         backgroundColor = bgColor,
                         textColor = textColor,
-                        modifier = buttonModifier
+                        modifier = Modifier.weight(1f)
                     ) {
                         when (symbol) {
                             "C" -> viewModel.onAction(CalculatorAction.Clear)
@@ -100,6 +100,7 @@ fun CalculatorScreen(
                             "+" -> viewModel.onAction(CalculatorAction.Operator("+"))
                             "=" -> viewModel.onAction(CalculatorAction.Calculate)
                             "." -> viewModel.onAction(CalculatorAction.Decimal)
+                            "+/-" -> viewModel.onAction(CalculatorAction.ToggleSign)
                             else -> viewModel.onAction(CalculatorAction.Number(symbol.toInt()))
                         }
                     }

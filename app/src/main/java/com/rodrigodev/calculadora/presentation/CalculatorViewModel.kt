@@ -25,6 +25,7 @@ class CalculatorViewModel(
             is CalculatorAction.Delete -> deleteLast()
             is CalculatorAction.Calculate -> calculateResult()
             is CalculatorAction.Percentage -> enterPercentage()
+            is CalculatorAction.ToggleSign -> toggleSign()
         }
     }
 
@@ -85,6 +86,18 @@ class CalculatorViewModel(
         if (parsedNumber != null) {
             val percentageValue = parsedNumber / 100.0
             _state.update { it.copy(expression = prefix + percentageValue) }
+        }
+    }
+
+    private fun toggleSign() {
+        val currentResult = _state.value.result
+        if (currentResult.isNotBlank() && currentResult != "Error") {
+            val newResult = if (currentResult.startsWith("-")) {
+                currentResult.drop(1)
+            } else {
+                "-$currentResult" 
+            }
+            _state.update { it.copy(result = newResult) }
         }
     }
 }

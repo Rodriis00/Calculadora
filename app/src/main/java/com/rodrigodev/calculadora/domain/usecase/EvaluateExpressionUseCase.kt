@@ -8,6 +8,11 @@ class EvaluateExpressionUseCase {
         if (expression.isBlank()) return ""
         return try {
             val result = eval(expression)
+
+            if (result.isInfinite() || result.isNaN()) {
+                return "Error"
+            }
+
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.HALF_UP
             df.format(result)
@@ -44,8 +49,8 @@ class EvaluateExpressionUseCase {
             fun parseExpression(): Double {
                 var x = parseTerm()
                 while (true) {
-                    if (eat('+'.code)) x += parseTerm() // Suma
-                    else if (eat('-'.code)) x -= parseTerm() // Resta
+                    if (eat('+'.code)) x += parseTerm()
+                    else if (eat('-'.code)) x -= parseTerm()
                     else return x
                 }
             }
@@ -53,8 +58,8 @@ class EvaluateExpressionUseCase {
             fun parseTerm(): Double {
                 var x = parseFactor()
                 while (true) {
-                    if (eat('*'.code)) x *= parseFactor() // Multiplicación
-                    else if (eat('/'.code)) x /= parseFactor() // División
+                    if (eat('*'.code)) x *= parseFactor()
+                    else if (eat('/'.code)) x /= parseFactor()
                     else return x
                 }
             }

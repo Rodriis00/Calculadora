@@ -8,4 +8,5 @@ sealed interface CalculatorAction {
     object Decimal : CalculatorAction
     object Calculate : CalculatorAction
     object Percentage : CalculatorAction
+    object  ToggleSign : CalculatorAction
 }
