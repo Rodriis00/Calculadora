@@ -15,15 +15,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rodrigodev.calculadora.ui.theme.ButtonGray
-import com.rodrigodev.calculadora.ui.theme.TextPrimary
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.rodrigodev.calculadora.ui.theme.DarkButtonGray
+import com.rodrigodev.calculadora.ui.theme.TextLight
 
 @Composable
 fun CalculatorButton(
     symbol: String,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = ButtonGray,
-    textColor: Color = TextPrimary,
+    backgroundColor: Color = DarkButtonGray,
+    textColor: Color = TextLight,
     onClick: () -> Unit
 ) {
     Box(
@@ -31,7 +32,7 @@ fun CalculatorButton(
         modifier = modifier
             .padding(8.dp)
             .aspectRatio(1f)
-            .clip(CircleShape)
+            .clip(RoundedCornerShape(16.dp))
             .background(backgroundColor)
             .clickable { onClick() }
     ) {

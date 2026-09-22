@@ -9,4 +9,8 @@ sealed interface CalculatorAction {
     object Calculate : CalculatorAction
     object Percentage : CalculatorAction
     object  ToggleSign : CalculatorAction
+    object MemoryClear : CalculatorAction
+    object MemoryRecall : CalculatorAction
+    object MemoryAdd : CalculatorAction
+    object MemorySubtract : CalculatorAction
 }

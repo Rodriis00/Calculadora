@@ -16,10 +16,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rodrigodev.calculadora.presentation.CalculatorAction
 import com.rodrigodev.calculadora.presentation.CalculatorViewModel
 import com.rodrigodev.calculadora.ui.components.CalculatorButton
-import com.rodrigodev.calculadora.ui.theme.BackgroundWhite
-import com.rodrigodev.calculadora.ui.theme.ButtonBlue
-import com.rodrigodev.calculadora.ui.theme.ButtonGray
-import com.rodrigodev.calculadora.ui.theme.TextPrimary
+import com.rodrigodev.calculadora.ui.theme.DarkBackground
+import com.rodrigodev.calculadora.ui.theme.DarkButtonBlue
+import com.rodrigodev.calculadora.ui.theme.DarkButtonGray
+import com.rodrigodev.calculadora.ui.theme.TextLight
 
 @Composable
 fun CalculatorScreen(
@@ -32,7 +32,7 @@ fun CalculatorScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundWhite)
+            .background(DarkBackground)
             .padding(16.dp),
         verticalArrangement = Arrangement.Bottom
     ) {
@@ -46,7 +46,7 @@ fun CalculatorScreen(
             Text(
                 text = state.expression,
                 fontSize = 32.sp,
-                color = TextPrimary.copy(alpha = 0.6f),
+                color = TextLight.copy(alpha = 0.6f),
                 textAlign = TextAlign.End,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -55,7 +55,7 @@ fun CalculatorScreen(
                 text = state.result,
                 fontSize = 56.sp,
                 fontWeight = FontWeight.Bold,
-                color = TextPrimary,
+                color = TextLight,
                 textAlign = TextAlign.End,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -64,11 +64,12 @@ fun CalculatorScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         val buttons = listOf(
+            listOf("MC", "MR", "M+", "M-"),
             listOf("C", "⌫", "%", "/"),
             listOf("7", "8", "9", "*"),
             listOf("4", "5", "6", "-"),
             listOf("1", "2", "3", "+"),
-            listOf("0", ".", "+/-", "=")
+            listOf("+/-", "0", ".", "=")
         )
 
         buttons.forEach { row ->
@@ -77,9 +78,9 @@ fun CalculatorScreen(
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
             ) {
                 row.forEach { symbol ->
-                    val isAction = symbol in listOf("C", "⌫", "%", "/", "*", "-", "+", "=", "+/-")
-                    val bgColor = if (isAction) ButtonBlue else ButtonGray
-                    val textColor = if (isAction) BackgroundWhite else TextPrimary
+                    val isAction = symbol in listOf("C", "⌫", "%", "/", "*", "-", "+", "=", "MC", "MR", "M+", "M-")
+                    val bgColor = if (isAction) DarkButtonBlue else DarkButtonGray
+                    val textColor = TextLight
 
                     val buttonModifier =
                         if (symbol == "0") Modifier.weight(2f) else Modifier.weight(1f)
@@ -91,6 +92,10 @@ fun CalculatorScreen(
                         modifier = Modifier.weight(1f)
                     ) {
                         when (symbol) {
+                            "MC" -> viewModel.onAction(CalculatorAction.MemoryClear)
+                            "MR" -> viewModel.onAction(CalculatorAction.MemoryRecall)
+                            "M+" -> viewModel.onAction(CalculatorAction.MemoryAdd)
+                            "M-" -> viewModel.onAction(CalculatorAction.MemorySubtract)
                             "C" -> viewModel.onAction(CalculatorAction.Clear)
                             "⌫" -> viewModel.onAction(CalculatorAction.Delete)
                             "%" -> viewModel.onAction(CalculatorAction.Percentage)
